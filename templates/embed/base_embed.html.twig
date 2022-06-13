@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="google" content="notranslate">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>{% block title %}Embed{% endblock %} | PublicSquare</title>
+
+        <link rel="preconnect" href="//cdnjs.cloudflare.com" crossorigin>
+
+        {% block preload %}
+        {% endblock %}
+
+        {% block metatags %}
+        {% endblock %}
+
+        {% block stylesheets %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {# <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.2/iframeResizer.contentWindow.min.js" integrity="sha512-14SY6teTzhrLWeL55Q4uCyxr6GQOxF3pEoMxo2mBxXwPRikdMtzKMYWy2B5Lqjr6PHHoGOxZgPaxUYKQrSmu0A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> #}
+        {% endblock %}
+    </body>
+</html>

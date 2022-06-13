@@ -1,0 +1,49 @@
+{
+    "name": "psqr-api",
+    "version": "0.1.0",
+    "description": "API for Virtual Public Square network components.",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "eslint": "npx eslint --config .eslintrc.json src/Scripts -f table --no-color",
+        "eslintfix": "npx eslint --config .eslintrc.json src/Scripts -f table --no-color --fix",
+        "phpcs": "echo Execute 'npm run-script phpcsfix' to correct any errors. && .\"/vendor/bin/php-cs-fixer\" fix --dry-run --verbose --show-progress=dots --allow-risky=yes",
+        "phpcsfix": ".\"/vendor/bin/php-cs-fixer\" fix --show-progress=dots --verbose --allow-risky=yes",
+        "phpstan": ".\"/vendor/bin/phpstan\" analyse -l 5 src --xdebug",
+        "unittest": "php ./vendor/bin/phpunit tests/Unit/",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/public-square/psqr-api.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/public-square/psqr-api/issues"
+    },
+    "homepage": "https://github.com/public-square/psqr-api#readme",
+    "dependencies": {
+        "@elastic/elasticsearch": "^7.12.0",
+        "axios": "^0.21.1",
+        "bencode": "^2.0.1",
+        "dotenv": "^9.0.2",
+        "jose": "^3.11.2",
+        "line-by-line": "^0.1.6",
+        "pre-commit": "^1.2.2",
+        "redis": "^3.1.2",
+        "webcrypto-core": "^1.2.0",
+        "yargs": "^16.2.0"
+    },
+    "devDependencies": {
+        "eslint": "^7.28.0"
+    },
+    "pre-commit": [
+        "eslint",
+        "phpstan",
+        "phpcs",
+        "unittest"
+    ]
+}

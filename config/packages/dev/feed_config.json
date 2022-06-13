@@ -1,0 +1,7 @@
+{
+    "feed_configuration": {
+        "segment": 1,
+        "ttl": 3,
+        "es_ttl": 7
+    }
+}

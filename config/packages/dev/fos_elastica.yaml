@@ -1,0 +1,66 @@
+# Read the documentation: https://github.com/FriendsOfSymfony/FOSElasticaBundle/blob/master/doc/setup.md
+fos_elastica:
+  clients:
+    default:
+      host: '%env(ELASTICSEARCH_URL)%'
+      port: '%env(ELASTICSEARCH_PORT)%'
+      transport: https
+      ssl: true
+      logger: true
+      username: '%env(ELASTICSEARCH_USERNAME)%'
+      password: '%env(ELASTICSEARCH_PASSWORD)%'
+      curl:
+        !php/const CURLOPT_SSL_VERIFYPEER: false
+  indexes:
+    psqrsearch:
+      persistence:
+        provider: ~
+        finder: ~
+        listener:
+            enabled: false
+        elastica_to_model_transformer:
+          service: PublicSquare\Service\ElasticaPSQRTransformer
+          hydrate: false
+      properties:
+        body: { type: text }
+        broadcastDate: { type: date }
+        description: { type: text }
+        identity: { type: keyword, normalizer: lowercase }
+        key: { type: keyword }
+        infoHash: { type: keyword }
+        blindhash: { type: keyword }
+        lang: { type: keyword, normalizer: lowercase }
+        metainfo: { type: object, enabled: false }
+        publishDate: { type: date }
+        title: { type: text }
+        geo: { type: geo_point, ignore_malformed: true }
+        politicalSubdivision: { type: keyword, normalizer: lowercase }
+        contentReply: { type: keyword }
+        contentAmplify: { type: keyword }
+        contentLike: { type: keyword }
+    psqrfeed:
+      persistence:
+        provider: ~
+        finder: ~
+        listener:
+            enabled: false
+        elastica_to_model_transformer:
+          service: PublicSquare\Service\ElasticaPSQRTransformer
+          hydrate: false
+      properties:
+        body: { type: text }
+        broadcastDate: { type: date }
+        description: { type: text }
+        identity: { type: keyword, normalizer: lowercase }
+        key: { type: keyword }
+        infoHash: { type: keyword }
+        blindhash: { type: keyword }
+        lang: { type: keyword, normalizer: lowercase }
+        metainfo: { type: object, enabled: false }
+        publishDate: { type: date }
+        title: { type: text }
+        geo: { type: geo_point, ignore_malformed: true }
+        politicalSubdivision: { type: keyword, normalizer: lowercase }
+        contentReply: { type: keyword }
+        contentAmplify: { type: keyword }
+        contentLike: { type: keyword }

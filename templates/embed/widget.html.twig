@@ -1,0 +1,201 @@
+{% extends 'embed/base_embed.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/css/bootstrap.min.css" integrity="sha512-F7WyTLiiiPqvu2pGumDR15med0MDkUIo5VTVyyfECR5DZmCnDhti9q5VID02ItWjq6fvDfMaBaDl2J3WdL1uxA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        .ology-logo {
+            z-index: 10;
+            background: rgb(0, 0, 0, 0.5);
+        }
+        .body-image {
+            object-fit: cover;
+            height: 220px;
+        }
+        .fallback-image {
+            object-fit: none;
+        }
+        .card-title {
+            min-height: 30px;
+        }
+        @media (min-width: 992px) {
+            .body-image {
+                height: 320px;
+            }
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.2.6/vue.global.prod.min.js"></script>
+{% endblock %}
+
+{% block body %}
+    {% verbatim %}
+    <div id="widget" class="container-fluid mt-3">
+        <div v-if="faviconShow" class="ology-logo end-0 p-2 position-fixed top-0">
+            <a class="text-decoration-none text-white" href="https://ology.com" target="_blank">
+                <img src="https://ology.com/img/icons/favicon-16x16.png" height="16" width="16" loading="lazy">
+                <span v-if="faviconText !== 'none'" class="ms-1">{{ faviconText === 'short' ? 'Ology' : 'Ology Newswire' }}</span>
+            </a>
+        </div>
+        <div class="row g-4">
+            <div v-for="article in articles" :key="'article-' + article.infoHash" class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body p-0" :data-infohash="article.infoHash">
+                        <div class="d-flex align-items-center p-3">
+                            <h5 class="card-title d-flex align-items-center m-0 flex-grow-1">
+                                <a target="_blank" class="d-flex align-items-center text-muted text-decoration-none" :href="article.provenance.publisher.url">
+                                    <img loading="lazy" width="30" height="30" class="me-2" @error="imgRemoveError" :src="article.provenance.publisher.image">
+                                    {{ article.provenance.publisher.name }}
+                                </a>
+                            </h5>
+                            <span class="small">{{ getReadableDate(article.info.publicSquare.package.publishDate) }}</span>
+                        </div>
+                        <a target="_blank" class="text-decoration-none text-body js-canonical-url" :href="forwarderDomain + article.infoHash + '?' + utmParams">
+                            <img @error="imgError" loading="lazy" class="w-100 pb-3 body-image" :src="article.info.publicSquare.package.image" :data-imgAlt="article.provenance.publisher.image">
+                            <p class="card-text px-3 pb-3">{{ article.info.publicSquare.package.description || article.info.publicSquare.package.title }}</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endverbatim %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        function validateUTMCampaign(param, domain) {
+            let regexp = /^[a-zA-Z0-9-_.]+$/;
+
+            if (param.get('utm_campaign') !== null) {
+                if (param.get('utm_campaign').length <= 128 && param.get('utm_campaign').search(regexp) !== -1) {
+                    return param.get('utm_campaign').toLowerCase()
+                }
+            }
+
+            return domain;
+        }
+
+        const domain = (window.location != window.parent.location) ? document.referrer.replace(/https?:\/\//gi, '').replace('/', '') : document.location.host;
+        const domainParams = new URLSearchParams(window.location.search);
+
+        const campaign = validateUTMCampaign(domainParams, domain);
+
+        let params = new URLSearchParams({
+            utm_source: 'ology',
+            utm_medium: 'widget',
+            utm_campaign: campaign
+        });
+
+        const widgetApp = Vue.createApp({
+            data() {
+                return {
+                    articles: [],
+                    forwarderDomain: 'https://broadcast.staging.ology.com/link/',
+                    utmParams: params.toString(),
+                }
+            },
+            setup() {
+                const urlSearchParams = new URLSearchParams(window.location.search);
+                const params = Object.fromEntries(urlSearchParams.entries());
+
+                let urlObj = new URL(params.url);
+
+                urlObj.searchParams.append('cb', window.location.host);
+
+                const sourceUrl = urlObj.href;
+                const faviconShow = JSON.parse(params.favicon ?? true) === true;
+                const faviconText = params.favicon_text;
+
+                function getReadableDate(date) {
+                    let publishDate = new Date(date);
+                    let readableDate = publishDate.toLocaleString(undefined, {
+                        minute: '2-digit',
+                        year: '2-digit',
+                        month: 'numeric',
+                        day: 'numeric',
+                        hour: 'numeric',
+                    });
+
+                    return readableDate;
+                }
+
+                async function imgError(e) {
+                    const image = e.target;
+                    const imgAlt = image.dataset.imgalt;
+                    const imgFinal = 'https://id.newpress.co/missing_thumbnail.jpg';
+
+                    let newImg = imgAlt;
+                    switch (image.src) {
+                        case imgAlt:
+                            newImg = imgFinal;
+                            image.classList.remove('fallback-image');
+                            break;
+                        case imgFinal:
+                            image.remove();
+                            return false;
+                        default:
+                            image.classList.add('fallback-image');
+                            break;
+                    }
+
+                    image.src = newImg;
+                    image.classList.add('d-none');
+                    image.classList.add('d-md-inline');
+                    return true;
+                }
+
+                function imgRemoveError(e) {
+                    const image = e.target;
+                    image.remove();
+                    return true;
+                }
+
+                return { sourceUrl, faviconShow, faviconText, getReadableDate, imgError, imgRemoveError }
+            },
+            mounted() {
+                fetch(this.sourceUrl)
+                    .then(response => response.text())
+                    .then(text => {
+                        const lines = text.trim().split("\n").map(line => JSON.parse(line).metainfo);
+                        const newArticles = lines.filter(p => p.info.publicSquare.package.title !== '');
+
+                        this.articles.push(...newArticles);
+                    });
+            },
+            updated() {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach(entry => {
+                        if (entry && entry.isIntersecting) {
+                            const infoHash = entry.target.dataset.infohash;
+
+                            observer.unobserve(entry.target);
+
+                            const domain = (window.location != window.parent.location) ? document.referrer.replace(/https?:\/\//gi, '').replace('/', '') : document.location.host;
+
+                            const domainParams = new URLSearchParams(window.location.search);
+
+                            const campaign = validateUTMCampaign(domainParams, domain);
+
+                            let params = new URLSearchParams({
+                                utm_source: 'ology',
+                                utm_medium: 'widget',
+                                utm_campaign: campaign
+                            });
+
+                            let url = 'https://beacon.ology.com/' + infoHash + '?' + params.toString();
+
+                            navigator.sendBeacon(url);
+                        }
+                    });
+                });
+
+                Array.from(document.querySelectorAll('.card-body')).forEach(el => {
+                    observer.observe(el);
+                });
+            }
+        });
+
+        const vm = widgetApp.mount('#widget');
+    </script>
+{% endblock %}

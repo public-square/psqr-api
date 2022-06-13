@@ -1,0 +1,24 @@
+{
+    "dids": [
+        "did:psqr:id.ology.com/huff-post",
+        "did:psqr:id.ology.com/politico",
+        "did:psqr:id.ology.com/vox",
+        "did:psqr:id.ology.com/salon",
+        "did:psqr:id.ology.com/the-daily-beast",
+        "did:psqr:id.ology.com/talking-points-memo",
+        "did:psqr:id.ology.com/the-new-republic",
+        "did:psqr:id.ology.com/five-thirty-eight",
+        "did:psqr:id.ology.com/the-nation",
+        "did:psqr:id.ology.com/mother-jones",
+        "did:psqr:id.ology.com/democracy-now",
+        "did:psqr:id.ology.com/slate",
+        "did:psqr:id.ology.com/the-atlantic",
+        "did:psqr:id.ology.com/the-young-turks",
+        "did:psqr:id.ology.com/raw-story",
+        "did:psqr:id.ology.com/balloon-juice",
+        "did:psqr:id.ology.com/daily-kos",
+        "did:psqr:id.ology.com/alternet",
+        "did:psqr:id.ology.com/crooks-and-liars",
+        "did:psqr:id.ology.com/boing-boing"
+    ]
+}

@@ -1,0 +1,59 @@
+{
+  "mappings": {
+    "properties": {
+      "body": {
+        "type": "text"
+      },
+      "broadcastDate": {
+        "type": "date"
+      },
+      "description": {
+        "type": "text"
+      },
+      "identity": {
+        "type": "keyword",
+        "normalizer": "lowercase"
+      },
+      "key": {
+        "type": "keyword"
+      },
+      "infoHash": {
+        "type": "keyword"
+      },
+      "blindhash": {
+        "type": "keyword"
+      },
+      "lang": {
+        "type": "keyword",
+        "normalizer": "lowercase"
+      },
+      "metainfo": {
+        "type": "text",
+        "index": false
+      },
+      "publishDate": {
+        "type": "date"
+      },
+      "title": {
+        "type": "text"
+      },
+      "geo": {
+        "type": "geo_point",
+        "ignore_malformed": true
+      },
+      "politicalSubdivision": {
+        "type": "keyword",
+        "normalizer": "lowercase"
+      },
+      "contentReply": {
+        "type": "keyword"
+      },
+      "contentAmplify": {
+        "type": "keyword"
+      },
+      "contentLike": {
+        "type": "keyword"
+      }
+    }
+  }
+}

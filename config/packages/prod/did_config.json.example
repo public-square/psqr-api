@@ -1,0 +1,7 @@
+{
+    "accepted_domains": {
+        "did:web:id.ology.com": "/path/to/identities",
+        "did:web:id.staging.ology.com": true,
+        "did:web:id.newpress.co": true
+    }
+}

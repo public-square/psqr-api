@@ -1,0 +1,28 @@
+framework:
+    messenger:
+        reset_on_message: true
+        # Uncomment this (and the failed transport below) to send failed messages to this transport for later handling.
+        # failure_transport: failed messenger:
+        serializer:
+            default_serializer: messenger.transport.symfony_serializer
+            symfony_serializer:
+                format: json
+                context: { }
+
+        transports:
+            # https://symfony.com/doc/current/messenger.html#transport-configuration
+            broadcasts:
+                dsn: '%env(TRANSPORT_DSN)%/broadcasts'
+                # include this option to put data into redis without the php serialization
+                options:
+                    serializer: !php/const \Redis::SERIALIZER_NONE
+                    delete_after_ack: true
+                serializer: PublicSquare\Serializer\JsonSerializer
+
+        routing:
+            # Route your messages to the transports
+            'PublicSquare\Message\Event\PutContentEvent': broadcasts
+
+        buses:
+            event.bus:
+                default_middleware: allow_no_handlers

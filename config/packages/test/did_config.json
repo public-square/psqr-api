@@ -1,0 +1,8 @@
+{
+    "accepted_domains": {
+        "did:web:id.ology.com": "./public/identity",
+        "did:psqr:id.ology.com": "./public/identity",
+        "did:web:id.staging.ology.com": true,
+        "did:web:id.newpress.co": true
+    }
+}

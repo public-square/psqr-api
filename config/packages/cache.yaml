@@ -1,0 +1,43 @@
+framework:
+    cache:
+        # filesystem cache is used for the app because of Opcache
+        app: cache.adapter.filesystem
+        default_redis_provider: '%env(DID_DSN)%'
+
+        # Namespaced pools use the above "app" backend by default
+        pools:
+            did_cache:
+                # Define did_cache to use custom Redis adapter
+                adapter: app.cache.adapter.did_cache
+            query_cache:
+                # Define query_cache to use custom Redis adapter
+                adapter: app.cache.adapter.query_cache
+            feed_cache:
+                # Define feed_cache to use custom Redis adapter
+                adapter: app.cache.adapter.feed_cache
+            etag_cache:
+                # Define etag_cache to use custom Redis adapter
+                adapter: app.cache.adapter.etag_cache
+
+services:
+    json_marshaller:
+        alias: PublicSquare\Marshaller\JsonMarshaller
+        public: true
+    app.cache.adapter.did_cache:
+        parent: 'cache.adapter.redis'
+        tags:
+           - { name: 'cache.pool', namespace: 'psqr-did' }
+    app.cache.adapter.query_cache:
+        parent: 'cache.adapter.redis'
+        tags:
+           - { name: 'cache.pool', namespace: 'psqr-query' }
+    app.cache.adapter.feed_cache:
+        parent: 'cache.adapter.redis'
+        arguments:
+            $marshaller: '@json_marshaller'
+        tags:
+           - { name: 'cache.pool', namespace: 'psqr-feed' }
+    app.cache.adapter.etag_cache:
+        parent: 'cache.adapter.redis'
+        tags:
+           - { name: 'cache.pool', namespace: 'psqr-etag' }

@@ -1,0 +1,13 @@
+{
+    "dids": [
+        "did:psqr:id.ology.com/the-washington-post",
+        "did:psqr:id.ology.com/the-new-york-times",
+        "did:psqr:id.ology.com/cnn",
+        "did:psqr:id.ology.com/the-new-yorker",
+        "did:psqr:id.ology.com/buzzfeed",
+        "did:psqr:id.ology.com/the-economist",
+        "did:psqr:id.ology.com/the-guardian",
+        "did:psqr:id.ology.com/msnbc",
+        "did:psqr:id.ology.com/upi"
+    ]
+}

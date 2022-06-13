@@ -1,0 +1,15 @@
+{
+    "api_permissions": {
+        "PublicSquare\\Controller\\API\\ContentController": {
+            "GET": true,
+            "PUT": true,
+            "POST": true,
+            "DELETE": true
+        },
+        "PublicSquare\\Controller\\API\\FeedController": true,
+        "PublicSquare\\Controller\\API\\SearchController": {
+            "POST": true,
+            "GET": true
+        }
+    }
+}

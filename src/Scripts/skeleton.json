@@ -1,0 +1,65 @@
+{
+    "name": "",
+    "infoHash": "",
+    "created": "",
+    "createdBy": "",
+    "urlList": [],
+    "announce": [],
+
+    "files": [
+        {
+            "name": "",
+            "offset": 0,
+            "length": ""
+        }
+    ],
+
+    "provenance": {
+        "signature": "",
+        "jwk": {
+            "crv": "",
+            "x": "",
+            "kty": "",
+            "alg": "",
+            "kid": ""
+        },
+        "publisher": {
+            "name": "",
+            "image": "",
+            "url": "",
+            "tagline": "",
+            "contact": {
+                "email": "",
+                "phone": "",
+                "address": ""
+            },
+            "updated": ""
+        }
+    },
+
+    "info": {
+        "publicSquare": {
+            "package": {
+                "geo": {
+                    "geoRegional": "",
+                    "geoMetropolitan": "",
+                    "geoLocal": "",
+                    "politicalSubdivision": []
+                },
+                "publishDate": "",
+                "lang": "",
+                "title": "",
+                "description": "",
+                "image": "",
+                "body": "",
+                "references": {
+                    "content": {
+                        "reply": "",
+                        "amplify": "",
+                        "like": ""
+                    }
+                }
+            }
+        }
+    }
+}
